@@ -49,7 +49,7 @@ public:
 		{
 			for (int j = 0; j < st; j++)
 			{
-				ptr[i][j] = rand() % 100;
+				ptr[i][j] = rand() % 10;
 			}
 		}
 	}
@@ -66,7 +66,7 @@ public:
 	}
 	void SetElement(int row, int col, int value)
 	{
-		if (row > str || col > st)
+		if (row >= str || col >= st)
 		{
 			cout << "Index out of bounds" << endl;
 			return;
@@ -75,15 +75,15 @@ public:
 	}
 	int GetElement(int row, int col)const
 	{
-		if (row > str || col > st)
+		if (row >= str || col >= st)
 		{
 			cout << "Index out of bounds" << endl;
-			return -99999;
+			return -999999;
 		}
 
 		return ptr[row][col];
 	}
-	Matrix AddMatrix(Matrix & obj)
+	Matrix AddMatrix(Matrix& obj)const
 	{
 		if (str != obj.str || st != obj.st)
 		{
@@ -97,6 +97,43 @@ public:
 			for (int j = 0; j < st; j++)
 			{
 				temp.ptr[i][j] = ptr[i][j] + obj.ptr[i][j];
+			}
+		}
+
+		return temp;
+	}
+	Matrix MultiplyMatrix(Matrix& obj)const
+	{
+		if (st != obj.str)
+		{
+			cout << "First matrix column count must be equal to second matrix row count" << endl;
+			return Matrix();
+		}
+
+		Matrix temp(str, obj.st);
+
+		for (int i = 0; i < str; i++)
+		{
+			for (int j = 0; j < obj.st; j++)
+			{
+				for (int k = 0; k < obj.str; k++)
+				{
+					temp.ptr[i][j] += ptr[i][k] * obj.ptr[k][j];
+				}
+			}
+		}
+
+		return temp;
+	}
+	Matrix TransposeMatrix()const
+	{
+		Matrix temp(st, str);
+
+		for (int i = 0; i < str; i++)
+		{
+			for (int j = 0; j < st; j++)
+			{
+				temp.ptr[j][i] = ptr[i][j];
 			}
 		}
 
@@ -116,20 +153,36 @@ public:
 
 int main()
 {
-	Matrix obj1(3, 5);
+	
+	Matrix obj1(3, 2);
 	obj1.Input();
 	obj1.Print();
-	//Matrix obj2(3, 5);
-	//obj2.Input();
-	//obj2.Print();
 
-	Matrix obj2 = obj1;
-	obj2.Print();
-	cout << "1,3 element: " << obj2.GetElement(1, 3) << endl;
-	obj2.SetElement(1, 3, 999);
-	obj2.Print();
-	cout << "1,3 element: " << obj2.GetElement(1, 3) << endl;
+	cout << "\n";
 
-	Matrix obj3 = obj1.AddMatrix(obj2);
+	Matrix obj2(2, 5);
+	obj2.Input();
+	obj2.Print();
+
+	cout << "=====Copy=====\n";
+	Matrix obj3 = obj1;
 	obj3.Print();
+
+	cout << "=====Set Element=====\n";
+	cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
+	obj3.SetElement(2, 0, 999);
+	obj3.Print();
+	cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
+
+	cout << "=====Add Matrix=====\n";
+	Matrix obj4 = obj1.AddMatrix(obj3);
+	obj4.Print();
+	
+	cout << "=====Multiply Matrix=====\n";
+	Matrix obj5 = obj1.MultiplyMatrix(obj2);
+	obj5.Print();
+
+	cout << "=====Transpose Matrix=====\n";
+	Matrix obj6 = obj1.TransposeMatrix();
+	obj6.Print();
 }
