@@ -78,10 +78,29 @@ public:
 		if (row > str || col > st)
 		{
 			cout << "Index out of bounds" << endl;
-			return -1;
+			return -99999;
 		}
 
 		return ptr[row][col];
+	}
+	Matrix AddMatrix(Matrix & obj)
+	{
+		if (str != obj.str || st != obj.st)
+		{
+			cout << "Matrix sizes are different" << endl;
+			return Matrix();
+		}
+		Matrix temp(str, st);
+
+		for (int i = 0; i < str; i++)
+		{
+			for (int j = 0; j < st; j++)
+			{
+				temp.ptr[i][j] = ptr[i][j] + obj.ptr[i][j];
+			}
+		}
+
+		return temp;
 	}
 	~Matrix()
 	{
@@ -100,6 +119,9 @@ int main()
 	Matrix obj1(3, 5);
 	obj1.Input();
 	obj1.Print();
+	//Matrix obj2(3, 5);
+	//obj2.Input();
+	//obj2.Print();
 
 	Matrix obj2 = obj1;
 	obj2.Print();
@@ -107,4 +129,7 @@ int main()
 	obj2.SetElement(1, 3, 999);
 	obj2.Print();
 	cout << "1,3 element: " << obj2.GetElement(1, 3) << endl;
+
+	Matrix obj3 = obj1.AddMatrix(obj2);
+	obj3.Print();
 }
