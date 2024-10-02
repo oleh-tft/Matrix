@@ -1,16 +1,13 @@
 #include<iostream>
 using namespace std;
-//—оздать класс дл€ работы с матрицами.
-//ѕредусмотреть, как минимум, функции дл€ сложени€ матриц, умножени€ матриц, транспонировани€ матриц, присваивани€ матриц друг другу(конструктор копировани€), установка и получение произвольного элемента матрицы(доступ через индексы).
 
+template<class T>
 class Matrix
 {
-	int** ptr;
+	T** ptr;
 	int str; // строки
 	int st; //столбцы
 public: 
-	// конструктор копировани€
-	// установка и получение произвольного элемента матрицы(доступ через индексы).
 
 	Matrix()
 	{
@@ -21,11 +18,11 @@ public:
 	{
 		str = _str;
 		st = _st;
-		ptr = new int* [str];
+		ptr = new T* [str];
 
 		for (int i = 0; i < str; i++)
 		{
-			ptr[i] = new int[st] {0};
+			ptr[i] = new T[st] {0};
 		}
 
 	}
@@ -33,10 +30,10 @@ public:
 	{
 		str = obj.str;
 		st = obj.st;
-		ptr = new int* [str];
+		ptr = new T* [str];
 		for (int i = 0; i < str; i++)
 		{
-			ptr[i] = new int[st];
+			ptr[i] = new T[st];
 			for (int j = 0; j < st; j++)
 			{
 				ptr[i][j] = obj.ptr[i][j];
@@ -49,7 +46,7 @@ public:
 		{
 			for (int j = 0; j < st; j++)
 			{
-				ptr[i][j] = rand() % 10;
+				ptr[i][j] = rand() % 10 * 1.2;
 			}
 		}
 	}
@@ -64,7 +61,7 @@ public:
 			cout << endl << endl;
 		}
 	}
-	void SetElement(int row, int col, int value)
+	void SetElement(int row, int col, T value)
 	{
 		if (row >= str || col >= st)
 		{
@@ -73,7 +70,7 @@ public:
 		}
 		ptr[row][col] = value;
 	}
-	int GetElement(int row, int col)const
+	T GetElement(int row, int col)const
 	{
 		if (row >= str || col >= st)
 		{
@@ -83,7 +80,7 @@ public:
 
 		return ptr[row][col];
 	}
-	Matrix AddMatrix(Matrix& obj)const
+	Matrix AddMatrix(Matrix& obj)
 	{
 		if (str != obj.str || st != obj.st)
 		{
@@ -102,7 +99,7 @@ public:
 
 		return temp;
 	}
-	Matrix MultiplyMatrix(Matrix& obj)const
+	Matrix MultiplyMatrix(Matrix& obj)
 	{
 		if (st != obj.str)
 		{
@@ -125,7 +122,7 @@ public:
 
 		return temp;
 	}
-	Matrix TransposeMatrix()const
+	Matrix TransposeMatrix()
 	{
 		Matrix temp(st, str);
 
@@ -154,35 +151,35 @@ public:
 int main()
 {
 	
-	Matrix obj1(3, 2);
+	Matrix<double> obj1(3, 2);
 	obj1.Input();
 	obj1.Print();
 
 	cout << "\n";
 
-	Matrix obj2(2, 5);
+	Matrix<double> obj2(2, 5);
 	obj2.Input();
 	obj2.Print();
 
 	cout << "=====Copy=====\n";
-	Matrix obj3 = obj1;
+	Matrix<double> obj3 = obj1;
 	obj3.Print();
 
 	cout << "=====Set Element=====\n";
 	cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
-	obj3.SetElement(2, 0, 999);
+	obj3.SetElement(2, 0, 999.123);
 	obj3.Print();
 	cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
 
 	cout << "=====Add Matrix=====\n";
-	Matrix obj4 = obj1.AddMatrix(obj3);
+	Matrix<double> obj4 = obj1.AddMatrix(obj3);
 	obj4.Print();
 	
 	cout << "=====Multiply Matrix=====\n";
-	Matrix obj5 = obj1.MultiplyMatrix(obj2);
+	Matrix<double> obj5 = obj1.MultiplyMatrix(obj2);
 	obj5.Print();
 
 	cout << "=====Transpose Matrix=====\n";
-	Matrix obj6 = obj1.TransposeMatrix();
+	Matrix<double> obj6 = obj1.TransposeMatrix();
 	obj6.Print();
 }
