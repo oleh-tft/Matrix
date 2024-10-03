@@ -1,4 +1,5 @@
 #include<iostream>
+#include"Point.h"
 using namespace std;
 
 template<class T>
@@ -80,6 +81,40 @@ public:
 
 		return ptr[row][col];
 	}
+	T GetLowest()const
+	{
+		T lowest = ptr[0][0];
+		for (int i = 0; i < str; i++)
+		{
+			for (int j = 0; j < st; j++)
+			{
+				if (ptr[i][j] < lowest)
+					lowest = ptr[i][j];
+			}
+		}
+		return lowest;
+	}
+	T GetLargest()const
+	{
+		T largest = ptr[0][0];
+		for (int i = 0; i < str; i++)
+		{
+			for (int j = 0; j < st; j++)
+			{
+				if (largest < ptr[i][j])
+					largest = ptr[i][j];
+			}
+		}
+		return largest;
+	}
+	Matrix operator+(Matrix& obj)
+	{
+		return AddMatrix(obj);
+	}
+	Matrix operator*(Matrix& obj)
+	{
+		return MultiplyMatrix(obj);
+	}
 	Matrix AddMatrix(Matrix& obj)
 	{
 		if (str != obj.str || st != obj.st)
@@ -148,38 +183,70 @@ public:
 
 };
 
+template<>
+class Matrix<Point>
+{
+	Point** ptr;
+	int str; // строки
+	int st; //столбцы
+
+public:
+	void Input();
+};
+
+void Matrix<Point>::Input()
+{
+	for (int i = 0; i < str; i++)
+	{
+		for (int j = 0; j < st; j++)
+		{
+			Point temp;
+			ptr[i][j] = temp.RandPoint();
+		}
+	}
+}
+
 int main()
 {
+	//Matrix<Point> obj1;
+
 	
-	Matrix<double> obj1(3, 2);
+	Matrix<Point> obj1(3, 2);
 	obj1.Input();
 	obj1.Print();
 
 	cout << "\n";
 
-	Matrix<double> obj2(2, 5);
+	Matrix<Point> obj2(2, 5);
 	obj2.Input();
 	obj2.Print();
 
 	cout << "=====Copy=====\n";
-	Matrix<double> obj3 = obj1;
+	Matrix<Point> obj3 = obj1;
 	obj3.Print();
 
 	cout << "=====Set Element=====\n";
-	cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
-	obj3.SetElement(2, 0, 999.123);
+	//cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
+	obj3.SetElement(2, 0, Point(123, 987));
 	obj3.Print();
-	cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
+	//cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
 
 	cout << "=====Add Matrix=====\n";
-	Matrix<double> obj4 = obj1.AddMatrix(obj3);
+	Matrix<Point> obj4 = obj1 + obj3;
 	obj4.Print();
 	
 	cout << "=====Multiply Matrix=====\n";
-	Matrix<double> obj5 = obj1.MultiplyMatrix(obj2);
+	Matrix<Point> obj5 = obj1 * obj2;
 	obj5.Print();
 
 	cout << "=====Transpose Matrix=====\n";
-	Matrix<double> obj6 = obj1.TransposeMatrix();
+	Matrix<Point> obj6 = obj1.TransposeMatrix();
 	obj6.Print();
+	
+	//cout << "Lowest: " << obj5.GetLowest() << endl;
+	//cout << "Largest: " << obj5.GetLargest() << endl;
+	//cout << obj5;
+
+	Point a(1, 2);
+	cout << a;
 }
