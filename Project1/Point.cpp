@@ -42,6 +42,16 @@ Point Point::operator*(Point& b)
     return Point(x * b.x, y * b.y);
 }
 
+Point Point::operator-(Point& b)
+{
+    return Point(x - b.x, y - b.y);
+}
+
+Point Point::operator/(Point& b)
+{
+    return Point(x / b.x, y / b.y);
+}
+
 Point& Point::operator+=(Point b)
 {
     x += b.x;
@@ -52,4 +62,9 @@ Point& Point::operator+=(Point b)
 bool Point::operator<(Point b)
 {
     return x + y < b.x + b.y;
+}
+
+bool Point::operator==(int b)
+{
+    return x == b || y == b;
 }

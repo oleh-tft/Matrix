@@ -16,7 +16,10 @@ public:
 
 	Point operator+(Point& b);
 	Point operator*(Point& b);
+	Point operator-(Point& b);
+	Point operator/(Point& b);
 	Point& operator+=(Point b);
 	bool operator<(Point b);
+	bool operator==(int b);
 };
 

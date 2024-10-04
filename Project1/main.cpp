@@ -115,6 +115,46 @@ public:
 	{
 		return MultiplyMatrix(obj);
 	}
+	Matrix operator-(Matrix& obj)
+	{
+		if (str != obj.str || st != obj.st)
+		{
+			cout << "Matrix sizes are different" << endl;
+			return Matrix();
+		}
+		Matrix temp(str, st);
+
+		for (int i = 0; i < str; i++)
+		{
+			for (int j = 0; j < st; j++)
+			{
+				temp.ptr[i][j] = ptr[i][j] - obj.ptr[i][j];
+			}
+		}
+
+		return temp;
+	}
+	Matrix operator/(Matrix& obj)
+	{
+		if (str != obj.str || st != obj.st)
+		{
+			cout << "Matrix sizes are different" << endl;
+			return Matrix();
+		}
+		Matrix temp(str, st);
+
+		for (int i = 0; i < str; i++)
+		{
+			for (int j = 0; j < st; j++)
+			{
+				if (ptr[i][j] == 0 || obj.ptr[i][j] == 0) return temp;
+
+				temp.ptr[i][j] = ptr[i][j] / obj.ptr[i][j];
+			}
+		}
+
+		return temp;
+	}
 	Matrix AddMatrix(Matrix& obj)
 	{
 		if (str != obj.str || st != obj.st)
@@ -189,6 +229,10 @@ int main()
 	obj1.Input();
 	obj1.Print();
 
+	Matrix<Point> obj1_2(3, 2);
+	obj1_2.Input();
+	obj1_2.Print();
+
 	cout << "\n";
 
 	Matrix<Point> obj2(2, 5);
@@ -205,16 +249,24 @@ int main()
 	obj3.Print();
 	cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
 
-	cout << "=====Add Matrix=====\n";
+	cout << "=====+ Matrix=====\n";
 	Matrix<Point> obj4 = obj1 + obj3;
 	obj4.Print();
 	
-	cout << "=====Multiply Matrix=====\n";
+	cout << "=====* Matrix=====\n";
 	Matrix<Point> obj5 = obj1 * obj2;
 	obj5.Print();
 
+	cout << "=====- Matrix=====\n";
+	Matrix<Point> obj6 = obj1 - obj1_2;
+	obj6.Print();
+
+	cout << "=====/ Matrix=====\n";
+	Matrix<Point> obj7 = obj1 / obj1_2;
+	obj7.Print();
+
 	cout << "=====Transpose Matrix=====\n";
-	Matrix<Point> obj6 = obj1.TransposeMatrix();
+	Matrix<Point> obj8 = obj1.TransposeMatrix();
 	obj6.Print();
 	
 	cout << "Lowest: " << obj5.GetLowest() << endl;
