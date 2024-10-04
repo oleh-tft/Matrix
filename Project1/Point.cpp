@@ -1,11 +1,11 @@
 #include "Point.h"
 
-istream& operator>>(istream& is, Point& obj)
+istream& operator>>(istream& is, Point obj)
 {
     return is;
 }
 
-ostream& operator<<(ostream& os, Point& obj)
+ostream& operator<<(ostream& os, Point obj)
 {
     cout << "X=" << obj.x << ",Y=" << obj.y;
     return os;
@@ -16,14 +16,40 @@ Point::Point()
     x = y = 0;
 }
 
+Point::Point(int Rand)
+{
+    x = Rand;
+    y = Rand + 10;
+}
+
+Point::Point(double Rand):Point((int)Rand)
+{
+}
+
 Point::Point(int X, int Y)
 {
     x = X;
     y = Y;
 }
 
-Point Point::RandPoint()
+Point Point::operator+(Point& b)
 {
-    return Point(rand() % 10, rand() % 10);
+    return Point(x + b.x, y + b.y);
 }
 
+Point Point::operator*(Point& b)
+{
+    return Point(x * b.x, y * b.y);
+}
+
+Point& Point::operator+=(Point b)
+{
+    x += b.x;
+    y += b.y;
+    return *this;
+}
+
+bool Point::operator<(Point b)
+{
+    return x + y < b.x + b.y;
+}

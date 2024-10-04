@@ -183,34 +183,8 @@ public:
 
 };
 
-template<>
-class Matrix<Point>
-{
-	Point** ptr;
-	int str; // строки
-	int st; //столбцы
-
-public:
-	void Input();
-};
-
-void Matrix<Point>::Input()
-{
-	for (int i = 0; i < str; i++)
-	{
-		for (int j = 0; j < st; j++)
-		{
-			Point temp;
-			ptr[i][j] = temp.RandPoint();
-		}
-	}
-}
-
 int main()
 {
-	//Matrix<Point> obj1;
-
-	
 	Matrix<Point> obj1(3, 2);
 	obj1.Input();
 	obj1.Print();
@@ -226,10 +200,10 @@ int main()
 	obj3.Print();
 
 	cout << "=====Set Element=====\n";
-	//cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
+	cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
 	obj3.SetElement(2, 0, Point(123, 987));
 	obj3.Print();
-	//cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
+	cout << "2,0 element: " << obj3.GetElement(2, 0) << endl;
 
 	cout << "=====Add Matrix=====\n";
 	Matrix<Point> obj4 = obj1 + obj3;
@@ -243,10 +217,6 @@ int main()
 	Matrix<Point> obj6 = obj1.TransposeMatrix();
 	obj6.Print();
 	
-	//cout << "Lowest: " << obj5.GetLowest() << endl;
-	//cout << "Largest: " << obj5.GetLargest() << endl;
-	//cout << obj5;
-
-	Point a(1, 2);
-	cout << a;
+	cout << "Lowest: " << obj5.GetLowest() << endl;
+	cout << "Largest: " << obj5.GetLargest() << endl;
 }
